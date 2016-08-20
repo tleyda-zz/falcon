@@ -1,5 +1,8 @@
 #include <stdlib.h>
+#include <string.h>
 #include "roman_calc.h"
+
+#include <stdio.h>
 
 struct RomanCalculator
 {
@@ -10,17 +13,35 @@ RomanCalculator* roman_calc_create()
 {
 	RomanCalculator* roman_calc = malloc(sizeof(RomanCalculator));
 
-	if(roman_calc != NULL)
-	{
+	// if(roman_calc != NULL)
+	// {
 		roman_calc->result = NULL;
-	}
+	// }
 
 	return(roman_calc);	
 }
 
+void roman_calc_add(RomanCalculator* roman_calc, char* romanOperand1, char* romanOperand2)
+{
+	roman_calc->result = realloc(roman_calc->result, 3);
+
+	roman_calc->result[0] = 'I';	
+	roman_calc->result[1] = 'I';	
+	roman_calc->result[2] = 0;	
+}
+
 int roman_calc_result_length(RomanCalculator* roman_calc)
 {
+	if(roman_calc->result != NULL)
+	{
+		return strlen(roman_calc->result);
+	}
 	return 0;	
+}
+
+char* roman_calc_result(RomanCalculator* roman_calc)
+{
+	return roman_calc->result;
 }
 
 void roman_calc_free(RomanCalculator* roman_calc)

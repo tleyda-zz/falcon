@@ -1,0 +1,6 @@
+src/*.o
+src/*.a
+src/romancalcapp
+tests/*.o
+tests/testromancalc
+
