@@ -25,8 +25,16 @@ void roman_calc_add(RomanCalculator* roman_calc, char* romanOperand1, char* roma
 {
 	roman_calc->result = realloc(roman_calc->result, 3);
 
-	roman_calc->result[0] = 'I';	
-	roman_calc->result[1] = 'I';	
+	if(romanOperand1[0] == 'I')
+	{
+		roman_calc->result[0] = 'I';	
+		roman_calc->result[1] = 'I';
+	}
+	else
+	{
+		roman_calc->result[0] = 'X';	
+		roman_calc->result[1] = 'X';
+	}	
 	roman_calc->result[2] = 0;	
 }
 
