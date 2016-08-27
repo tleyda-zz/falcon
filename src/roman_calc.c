@@ -24,6 +24,7 @@ RomanCalculator* roman_calc_create()
 void roman_calc_add(RomanCalculator* roman_calc, char* romanOperand1, char* romanOperand2)
 {
 	roman_calc->result = realloc(roman_calc->result, 3);
+	memset(roman_calc->result, 0, 3);
 
 	switch(romanOperand1[0])
 	{
@@ -43,8 +44,15 @@ void roman_calc_add(RomanCalculator* roman_calc, char* romanOperand1, char* roma
 		roman_calc->result[1] = 'I';
 		break;
 	case 'V':
-		roman_calc->result[0] = 'V';
-		roman_calc->result[1] = 'I';
+		if('I' == romanOperand2[0])
+		{
+			roman_calc->result[0] = 'V';
+			roman_calc->result[1] = 'I';
+		}
+		else
+		{
+			roman_calc->result[0] = 'X';
+		}
 		break;
 	case 'X':
 		roman_calc->result[0] = 'X';	
