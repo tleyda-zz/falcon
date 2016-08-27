@@ -157,6 +157,14 @@ START_TEST(test_roman_calc_add_X_to_V)
 }
 END_TEST
 
+START_TEST(test_roman_calc_add_X_to_C)
+{
+    roman_calc_add(roman_calc, "X", "C");
+    ck_assert_int_eq (roman_calc_result_length(roman_calc), 2);
+    ck_assert_str_eq (roman_calc_result(roman_calc), "CX");
+}
+END_TEST
+
 Suite * roman_calc_suite (void)
 {
     Suite *s = suite_create ("Roman Calculator");
@@ -186,6 +194,7 @@ Suite * roman_calc_suite (void)
     tcase_add_test (tc_add, test_roman_calc_add_V_to_M);
     tcase_add_test (tc_add, test_roman_calc_add_X_to_I);
     tcase_add_test (tc_add, test_roman_calc_add_X_to_V);
+    tcase_add_test (tc_add, test_roman_calc_add_X_to_C);
     suite_add_tcase (s, tc_add);
 
     return s;
