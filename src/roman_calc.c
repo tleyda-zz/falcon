@@ -42,6 +42,10 @@ void roman_calc_add(RomanCalculator* roman_calc, char* romanOperand1, char* roma
 		}
 		roman_calc->result[1] = 'I';
 		break;
+	case 'V':
+		roman_calc->result[0] = 'V';
+		roman_calc->result[1] = 'I';
+		break;
 	case 'X':
 		roman_calc->result[0] = 'X';	
 		roman_calc->result[1] = 'X';
