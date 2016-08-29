@@ -94,6 +94,10 @@ void roman_calc_add(RomanCalculator* roman_calc, char* romanOperand1, char* roma
 			roman_calc->result[0] = 'L';
 			roman_calc->result[1] = 'X';
 			break;
+		case 'C':
+			roman_calc->result[0] = 'C';
+			roman_calc->result[1] = 'L';
+			break;
 		}
 		break;
 	case 'C':
