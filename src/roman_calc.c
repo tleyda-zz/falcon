@@ -5,6 +5,7 @@
 #include <stdio.h>
 
 static int compareRomanNumeral(char leftNumeral, char  rightNumeral);
+static int convertRomanNumeralToInteger(char romanNumeral);
 
 struct RomanCalculator
 {
@@ -91,93 +92,49 @@ void roman_calc_free(RomanCalculator* roman_calc)
 static int compareRomanNumeral(char leftNumeral, char  rightNumeral)
 {
 	int result = EQUAL_TO;
+	int left = convertRomanNumeralToInteger(leftNumeral);
+	int right = convertRomanNumeralToInteger(rightNumeral);
 
-	if(leftNumeral != rightNumeral)
+	if(left > right)
 	{
-		switch(leftNumeral)
-		{
-		case 'I':
-			result = LESS_THAN;
-			break;
-		case 'V':
-			switch(rightNumeral)
-			{
-			case 'I':
-				result = GREATER_THAN;
-				break;
-			case 'X':
-			case 'C':
-			case 'D':
-			case 'M':
-				result = LESS_THAN;
-				break;
-			}
-			break;
-		case 'X':
-			switch(rightNumeral)
-			{
-			case 'I':
-			case 'V':
-				result = GREATER_THAN;
-				break;
-			case 'C':
-			case 'D':
-			case 'M':
-				result = LESS_THAN;
-				break;
-			}
-			break;
-		case 'L':
-			switch(rightNumeral)
-			{
-			case 'I':
-			case 'V':
-			case 'X':
-				result = GREATER_THAN;
-				break;
-			case 'C':
-			case 'D':
-			case 'M':
-				result = LESS_THAN;
-				break;
-			}
-			break;
-		case 'C':
-			switch(rightNumeral)
-			{
-			case 'I':
-			case 'V':
-			case 'X':
-			case 'L':
-				result = GREATER_THAN;
-				break;
-			case 'D':
-			case 'M':
-				result = LESS_THAN;
-				break;
-			}
-			break;
-		case 'D':
-			switch(rightNumeral)
-			{
-			case 'I':
-			case 'V':
-			case 'X':
-			case 'L':
-			case 'C':
-				result = GREATER_THAN;
-				break;
-			case 'M':
-				result = LESS_THAN;
-				break;
-			}
-			break;
-		case 'M':
-			result = GREATER_THAN;
-			break;
-		}
+		result = GREATER_THAN;
+	}
+	else if(left < right)
+	{
+		result = LESS_THAN;
 	}
 
 	return result;
 }
 
+static int convertRomanNumeralToInteger(char romanNumeral)
+{
+	int result = 0;
+
+	switch(romanNumeral)
+	{
+	case 'I':
+		result = 1;
+		break;
+	case 'V':
+		result = 5;
+		break;
+	case 'X':
+		result = 10;
+		break;
+	case 'L':
+		result = 50;
+		break;
+	case 'C':
+		result = 100;
+		break;
+	case 'D':
+		result = 500;
+		break;
+	case 'M':
+		result = 1000;
+		break;
+	}
+
+	return result;
+}
