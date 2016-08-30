@@ -15,10 +15,7 @@ RomanCalculator* roman_calc_create()
 {
 	RomanCalculator* roman_calc = malloc(sizeof(RomanCalculator));
 
-	// if(roman_calc != NULL)
-	// {
-		roman_calc->result = NULL;
-	// }
+	roman_calc->result = NULL;
 
 	return(roman_calc);	
 }
@@ -59,134 +56,6 @@ void roman_calc_add(RomanCalculator* roman_calc, char* romanOperand1, char* roma
 		roman_calc->result[0] = romanOperand1[0];
 		roman_calc->result[1] = romanOperand2[0];
 		break;	
-	}
-
-	switch(romanOperand1[0])
-	{
-	case 'I':
-		switch(romanOperand2[0])
-		{
-		case 'I':
-		case 'V':
-		case 'X':
-		case 'L':
-		case 'C':
-		case 'D':
-		case 'M':
-			roman_calc->result[0] = romanOperand2[0];	
-			break;	
-		}
-		roman_calc->result[1] = 'I';
-		break;
-	case 'V':
-		switch(romanOperand2[0])
-		{
-		case 'I':
-			roman_calc->result[0] = 'V';
-			roman_calc->result[1] = 'I';
-			break;
-		case 'V':
-			roman_calc->result[0] = 'X';
-			break;
-		case 'X':
-		case 'C':
-		case 'D':
-		case 'M':
-			roman_calc->result[0] = romanOperand2[0];
-			roman_calc->result[1] = 'V';
-			break;
-		}
-		break;
-	case 'X':
-		switch(romanOperand2[0])
-		{
-		case 'I':
-		case 'V':
-		case 'X':
-			roman_calc->result[0] = 'X';
-			roman_calc->result[1] = romanOperand2[0];
-			break;
-		case 'C':
-		case 'D':
-		case 'M':
-			roman_calc->result[0] = romanOperand2[0];
-			roman_calc->result[1] = 'X';
-			break;
-		}
-		break;
-	case 'L':
-		switch(romanOperand2[0])
-		{
-		case 'I':
-		case 'V':
-		case 'X':
-			roman_calc->result[0] = romanOperand1[0];
-			roman_calc->result[1] = romanOperand2[0];
-			break;
-		case 'C':
-		case 'D':
-		case 'M':
-			roman_calc->result[0] = romanOperand2[0];
-			roman_calc->result[1] = romanOperand1[0];
-			break;
-		case 'L':
-			roman_calc->result[0] = 'C';
-			break;
-		}
-		break;
-	case 'C':
-		switch(romanOperand2[0])
-		{
-		case 'I':
-		case 'V':
-		case 'X':
-		case 'L':
-		case 'C':
-			roman_calc->result[0] = romanOperand1[0];	
-			roman_calc->result[1] = romanOperand2[0];
-			break;
-		case 'D':
-		case 'M':
-			roman_calc->result[0] = romanOperand2[0];	
-			roman_calc->result[1] = romanOperand1[0];
-			break;
-		}
-		break;
-	case 'D':
-		switch(romanOperand2[0])
-		{
-		case 'I':
-		case 'V':
-		case 'X':
-		case 'L':
-		case 'C':
-			roman_calc->result[0] = romanOperand1[0];	
-			roman_calc->result[1] = romanOperand2[0];
-			break;
-		case 'D':
-			roman_calc->result[0] = 'M';	
-			break;
-		case 'M':
-			roman_calc->result[0] = romanOperand2[0];	
-			roman_calc->result[1] = romanOperand1[0];
-			break;
-		}
-		break;
-	case 'M':
-		switch(romanOperand2[0])
-		{
-		case 'I':
-		case 'V':
-		case 'X':
-		case 'L':
-		case 'C':
-		case 'D':
-		case 'M':
-			roman_calc->result[0] = romanOperand1[0];	
-			roman_calc->result[1] = romanOperand2[0];
-			break;
-		}
-		break;
 	}
 
 	roman_calc->result[2] = 0;	
