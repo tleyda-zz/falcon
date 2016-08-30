@@ -118,8 +118,17 @@ void roman_calc_add(RomanCalculator* roman_calc, char* romanOperand1, char* roma
 		}
 		break;
 	case 'D':
-		roman_calc->result[0] = 'D';	
-		roman_calc->result[1] = 'I';
+		switch(romanOperand2[0])
+		{
+		case 'I':
+			roman_calc->result[0] = 'D';	
+			roman_calc->result[1] = 'I';
+			break;
+		case 'V':
+			roman_calc->result[0] = 'D';	
+			roman_calc->result[1] = 'V';
+			break;
+		}
 		break;
 
 	}
