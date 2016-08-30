@@ -3,6 +3,13 @@
 
 typedef struct RomanCalculator RomanCalculator;
 
+enum
+{
+	LESS_THAN = -1,
+	EQUAL_TO,
+	GREATER_THAN
+};
+
 RomanCalculator* roman_calc_create();
 void roman_calc_add(RomanCalculator* roman_calc, char* romanOperand1, char* romanOperand2);
 int roman_calc_result_length(RomanCalculator* roman_calc);
