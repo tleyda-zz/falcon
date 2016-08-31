@@ -103,10 +103,19 @@ static int convertRomanNumeralToInteger(char* romanNumeral)
 			lastAddedValue = 50;
 			break;
 		case 100:
-			result += 100;
+			if(lastAddedValue > 100)
+			{
+				result -= 100;
+			}
+			else
+			{
+				result += 100;
+				lastAddedValue = 100;
+			}
 			break;
 		case 500:
 			result += 500;
+			lastAddedValue = 500;
 			break;
 		case 1000:
 			result += 1000;
@@ -158,6 +167,13 @@ static void convertIntegerToRomanNumeral(int integer, char* destination)
 		{
 			integer -= 1000;
 			*currentNumeral = 'M';
+		}
+		else if(integer == 900)
+		{
+			*currentNumeral = 'C';
+			currentNumeral++;
+			*currentNumeral = 'M';
+			integer -= 900;
 		}
 		else if(integer >= 500)
 		{
