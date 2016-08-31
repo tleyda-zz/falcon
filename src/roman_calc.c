@@ -4,8 +4,8 @@
 
 #include <stdio.h>
 
-static int compareRomanNumeral(char leftNumeral, char  rightNumeral);
-static int convertRomanNumeralToInteger(char romanNumeral);
+static int convertRomanNumeralToInteger(char* romanNumeral);
+static void convertIntegerToRomanNumeral(int integer, char* destination);
 
 struct RomanCalculator
 {
@@ -23,43 +23,13 @@ RomanCalculator* roman_calc_create()
 
 void roman_calc_add(RomanCalculator* roman_calc, char* romanOperand1, char* romanOperand2)
 {
-	roman_calc->result = realloc(roman_calc->result, 3);
-	memset(roman_calc->result, 0, 3);
+	int operand1 = convertRomanNumeralToInteger(romanOperand1);
+	int operand2 = convertRomanNumeralToInteger(romanOperand2);
 
-	switch(compareRomanNumeral(romanOperand1[0], romanOperand2[0]))
-	{
-	case LESS_THAN:
-		roman_calc->result[0] = romanOperand2[0];
-		roman_calc->result[1] = romanOperand1[0];
-		break;	
-	case EQUAL_TO:
-		switch(romanOperand1[0])
-		{
-		case 'I':
-		case 'X':
-		case 'C':
-		case 'M':
-			roman_calc->result[0] = romanOperand1[0];
-			roman_calc->result[1] = romanOperand1[0];
-			break;
-		case 'V':
-			roman_calc->result[0] = 'X';
-			break;
-		case 'L':
-			roman_calc->result[0] = 'C';
-			break;
-		case 'D':
-			roman_calc->result[0] = 'M';
-			break;
-		}
-		break;	
-	case GREATER_THAN:
-		roman_calc->result[0] = romanOperand1[0];
-		roman_calc->result[1] = romanOperand2[0];
-		break;	
-	}
+	roman_calc->result = realloc(roman_calc->result, 4);
+	memset(roman_calc->result, 0, 4);
 
-	roman_calc->result[2] = 0;	
+	convertIntegerToRomanNumeral(operand1 + operand2, roman_calc->result);
 }
 
 int roman_calc_result_length(RomanCalculator* roman_calc)
@@ -89,52 +59,83 @@ void roman_calc_free(RomanCalculator* roman_calc)
 	}	
 }
 
-static int compareRomanNumeral(char leftNumeral, char  rightNumeral)
+static int convertRomanNumeralToInteger(char* romanNumeral)
 {
-	int result = EQUAL_TO;
-	int left = convertRomanNumeralToInteger(leftNumeral);
-	int right = convertRomanNumeralToInteger(rightNumeral);
+	int result = 0;
+	char* currentNumeral = romanNumeral;
 
-	if(left > right)
+	while(0 != *currentNumeral)
 	{
-		result = GREATER_THAN;
-	}
-	else if(left < right)
-	{
-		result = LESS_THAN;
+		switch(*currentNumeral)
+		{
+		case 'I':
+			result += 1;
+			break;
+		case 'V':
+			result += 5;
+			break;
+		case 'X':
+			result += 10;
+			break;
+		case 'L':
+			result += 50;
+			break;
+		case 'C':
+			result += 100;
+			break;
+		case 'D':
+			result += 500;
+			break;
+		case 'M':
+			result += 1000;
+			break;
+		}
+		currentNumeral++;
 	}
 
 	return result;
 }
 
-static int convertRomanNumeralToInteger(char romanNumeral)
+static void convertIntegerToRomanNumeral(int integer, char* destination)
 {
-	int result = 0;
-
-	switch(romanNumeral)
+	char* currentNumeral = destination;
+	while(integer > 0)
 	{
-	case 'I':
-		result = 1;
-		break;
-	case 'V':
-		result = 5;
-		break;
-	case 'X':
-		result = 10;
-		break;
-	case 'L':
-		result = 50;
-		break;
-	case 'C':
-		result = 100;
-		break;
-	case 'D':
-		result = 500;
-		break;
-	case 'M':
-		result = 1000;
-		break;
+		if(integer >= 1000)
+		{
+			integer -= 1000;
+			*currentNumeral = 'M';
+		}
+		else if(integer >= 500)
+		{
+			integer -= 500;
+			*currentNumeral = 'D';
+		}
+		else if(integer >= 100)
+		{
+			integer -= 100;
+			*currentNumeral = 'C';
+		}
+		else if(integer >= 50)
+		{
+			integer -= 50;
+			*currentNumeral = 'L';
+		}
+		else if(integer >= 10)
+		{
+			integer -= 10;
+			*currentNumeral = 'X';
+		}
+		else if(integer >= 5)
+		{
+			integer -= 5;
+			*currentNumeral = 'V';
+		}
+		else
+		{
+			integer--;
+			*currentNumeral = 'I';
+		}
+		currentNumeral++;
 	}
-
-	return result;
 }
