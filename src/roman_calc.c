@@ -10,14 +10,12 @@ static void convertIntegerToRomanNumeral(int integer, char* destination);
 
 struct RomanCalculator
 {
-	char* result;
+	char result[10];
 };
 
 RomanCalculator* roman_calc_create()
 {
 	RomanCalculator* roman_calc = malloc(sizeof(RomanCalculator));
-
-	roman_calc->result = NULL;
 
 	return(roman_calc);	
 }
@@ -27,8 +25,7 @@ void roman_calc_add(RomanCalculator* roman_calc, char* romanOperand1, char* roma
 	int operand1 = convertRomanNumeralToInteger(romanOperand1);
 	int operand2 = convertRomanNumeralToInteger(romanOperand2);
 
-	roman_calc->result = realloc(roman_calc->result, 7);
-	memset(roman_calc->result, 0, 7);
+	memset(roman_calc->result, 0, 10);
 
 	convertIntegerToRomanNumeral(operand1 + operand2, roman_calc->result);
 }
@@ -51,11 +48,6 @@ void roman_calc_free(RomanCalculator* roman_calc)
 {
 	if(roman_calc != NULL)
 	{
-		if(roman_calc->result != NULL)
-		{
-			free(roman_calc->result);
-		}
-
 		free(roman_calc);
 	}	
 }

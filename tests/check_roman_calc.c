@@ -469,6 +469,14 @@ START_TEST(test_roman_calc_add_XIV_to_LX)
 }
 END_TEST
 
+START_TEST(test_roman_calc_add_MMM_to_CMXCIX)
+{
+    roman_calc_add(roman_calc, "MMM", "CMXCIX");
+    ck_assert_int_eq (roman_calc_result_length(roman_calc), 9);
+    ck_assert_str_eq (roman_calc_result(roman_calc), "MMMCMXCIX");
+}
+END_TEST
+
 void addCoreTests(Suite* testSuite)
 {
     TCase *tc_core = tcase_create ("Core");
@@ -544,6 +552,7 @@ void addMultiCharacterAddTests(Suite* testSuite)
     tcase_add_test (tc_core, test_roman_calc_add_D_to_CD);
     tcase_add_test (tc_core, test_roman_calc_add_CM_to_XLIX);
     tcase_add_test (tc_core, test_roman_calc_add_XIV_to_LX);
+    tcase_add_test (tc_core, test_roman_calc_add_MMM_to_CMXCIX);
     suite_add_tcase (testSuite, tc_core);
 }
 
