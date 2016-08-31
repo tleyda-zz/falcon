@@ -131,6 +131,13 @@ static void convertIntegerToRomanNumeral(int integer, char* destination)
 			integer -= 5;
 			*currentNumeral = 'V';
 		}
+		else if(integer == 4)
+		{
+			*currentNumeral = 'I';
+			currentNumeral++;
+			*currentNumeral = 'V';
+			integer -= 4;
+		}
 		else
 		{
 			integer--;
