@@ -541,19 +541,19 @@ void addSingleCharacterAddTests(Suite* testSuite)
 
 void addMultiCharacterAddTests(Suite* testSuite)
 {
-    TCase *tc_core = tcase_create ("Core");
-    tcase_add_checked_fixture (tc_core, setup, teardown);
-    tcase_add_test (tc_core, test_roman_calc_add_II_to_I);
-    tcase_add_test (tc_core, test_roman_calc_add_II_to_II);
-    tcase_add_test (tc_core, test_roman_calc_add_V_to_IV);
-    tcase_add_test (tc_core, test_roman_calc_add_XX_to_XX);
-    tcase_add_test (tc_core, test_roman_calc_add_L_to_XL);
-    tcase_add_test (tc_core, test_roman_calc_add_CC_to_CC);
-    tcase_add_test (tc_core, test_roman_calc_add_D_to_CD);
-    tcase_add_test (tc_core, test_roman_calc_add_CM_to_XLIX);
-    tcase_add_test (tc_core, test_roman_calc_add_XIV_to_LX);
-    tcase_add_test (tc_core, test_roman_calc_add_MMM_to_CMXCIX);
-    suite_add_tcase (testSuite, tc_core);
+    TCase *tc_mc_add = tcase_create ("Multicharacter Addition");
+    tcase_add_checked_fixture (tc_mc_add, setup, teardown);
+    tcase_add_test (tc_mc_add, test_roman_calc_add_II_to_I);
+    tcase_add_test (tc_mc_add, test_roman_calc_add_II_to_II);
+    tcase_add_test (tc_mc_add, test_roman_calc_add_V_to_IV);
+    tcase_add_test (tc_mc_add, test_roman_calc_add_XX_to_XX);
+    tcase_add_test (tc_mc_add, test_roman_calc_add_L_to_XL);
+    tcase_add_test (tc_mc_add, test_roman_calc_add_CC_to_CC);
+    tcase_add_test (tc_mc_add, test_roman_calc_add_D_to_CD);
+    tcase_add_test (tc_mc_add, test_roman_calc_add_CM_to_XLIX);
+    tcase_add_test (tc_mc_add, test_roman_calc_add_XIV_to_LX);
+    tcase_add_test (tc_mc_add, test_roman_calc_add_MMM_to_CMXCIX);
+    suite_add_tcase (testSuite, tc_mc_add);
 }
 
 Suite * roman_calc_suite (void)
