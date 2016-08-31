@@ -164,6 +164,13 @@ static void convertIntegerToRomanNumeral(int integer, char* destination)
 			integer -= 500;
 			*currentNumeral = 'D';
 		}
+		else if(integer == 400)
+		{
+			*currentNumeral = 'C';
+			currentNumeral++;
+			*currentNumeral = 'D';
+			integer -= 400;
+		}
 		else if(integer >= 100)
 		{
 			integer -= 100;

@@ -437,6 +437,14 @@ START_TEST(test_roman_calc_add_L_to_XL)
 }
 END_TEST
 
+START_TEST(test_roman_calc_add_CC_to_CC)
+{
+    roman_calc_add(roman_calc, "CC", "CC");
+    ck_assert_int_eq (roman_calc_result_length(roman_calc), 2);
+    ck_assert_str_eq (roman_calc_result(roman_calc), "CD");
+}
+END_TEST
+
 void addCoreTests(Suite* testSuite)
 {
     TCase *tc_core = tcase_create ("Core");
@@ -508,6 +516,7 @@ void addMultiCharacterAddTests(Suite* testSuite)
     tcase_add_test (tc_core, test_roman_calc_add_V_to_IV);
     tcase_add_test (tc_core, test_roman_calc_add_XX_to_XX);
     tcase_add_test (tc_core, test_roman_calc_add_L_to_XL);
+    tcase_add_test (tc_core, test_roman_calc_add_CC_to_CC);
     suite_add_tcase (testSuite, tc_core);
 }
 
