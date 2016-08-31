@@ -27,8 +27,8 @@ void roman_calc_add(RomanCalculator* roman_calc, char* romanOperand1, char* roma
 	int operand1 = convertRomanNumeralToInteger(romanOperand1);
 	int operand2 = convertRomanNumeralToInteger(romanOperand2);
 
-	roman_calc->result = realloc(roman_calc->result, 4);
-	memset(roman_calc->result, 0, 4);
+	roman_calc->result = realloc(roman_calc->result, 7);
+	memset(roman_calc->result, 0, 7);
 
 	convertIntegerToRomanNumeral(operand1 + operand2, roman_calc->result);
 }
@@ -119,6 +119,7 @@ static int convertRomanNumeralToInteger(char* romanNumeral)
 			break;
 		case 1000:
 			result += 1000;
+			lastAddedValue = 1000;
 			break;
 		}
 	}
@@ -168,7 +169,7 @@ static void convertIntegerToRomanNumeral(int integer, char* destination)
 			integer -= 1000;
 			*currentNumeral = 'M';
 		}
-		else if(integer == 900)
+		else if(integer >= 900)
 		{
 			*currentNumeral = 'C';
 			currentNumeral++;
@@ -180,7 +181,7 @@ static void convertIntegerToRomanNumeral(int integer, char* destination)
 			integer -= 500;
 			*currentNumeral = 'D';
 		}
-		else if(integer == 400)
+		else if(integer >= 400)
 		{
 			*currentNumeral = 'C';
 			currentNumeral++;
@@ -192,7 +193,7 @@ static void convertIntegerToRomanNumeral(int integer, char* destination)
 			integer -= 100;
 			*currentNumeral = 'C';
 		}
-		else if(integer == 90)
+		else if(integer >= 90)
 		{
 			*currentNumeral = 'X';
 			currentNumeral++;
@@ -204,7 +205,7 @@ static void convertIntegerToRomanNumeral(int integer, char* destination)
 			integer -= 50;
 			*currentNumeral = 'L';
 		}
-		else if(integer == 40)
+		else if(integer >= 40)
 		{
 			*currentNumeral = 'X';
 			currentNumeral++;
@@ -216,7 +217,7 @@ static void convertIntegerToRomanNumeral(int integer, char* destination)
 			integer -= 10;
 			*currentNumeral = 'X';
 		}
-		else if(integer == 9)
+		else if(integer >= 9)
 		{
 			*currentNumeral = 'I';
 			currentNumeral++;
@@ -228,7 +229,7 @@ static void convertIntegerToRomanNumeral(int integer, char* destination)
 			integer -= 5;
 			*currentNumeral = 'V';
 		}
-		else if(integer == 4)
+		else if(integer >= 4)
 		{
 			*currentNumeral = 'I';
 			currentNumeral++;
