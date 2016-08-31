@@ -13,6 +13,31 @@ struct RomanCalculator
 	char result[10];
 };
 
+struct RomanConversionData
+{
+	int value;
+	const char* numeralString;
+};
+
+#define NUM_ROMAN_CONVERSION 13
+
+const struct RomanConversionData romanConversionData[NUM_ROMAN_CONVERSION] = 
+{
+	{1000, "M"},
+	{900, "CM"},
+	{500, "D"},
+	{400, "CD"},
+	{100, "C"},
+	{90, "XC"},
+	{50, "L"},
+	{40, "XL"},
+	{10, "X"},
+	{9, "IX"},
+	{5, "V"},
+	{4, "IV"},
+	{1, "I"}
+};
+
 RomanCalculator* roman_calc_create()
 {
 	RomanCalculator* roman_calc = malloc(sizeof(RomanCalculator));
@@ -153,86 +178,19 @@ static int convertRomanCharacter(char romanCharacter)
 
 static void convertIntegerToRomanNumeral(int integer, char* destination)
 {
-	char* currentNumeral = destination;
 	while(integer > 0)
 	{
-		if(integer >= 1000)
+		int conversionIndex;
+		for(conversionIndex = 0; 
+			conversionIndex < NUM_ROMAN_CONVERSION; 
+			++conversionIndex)
 		{
-			integer -= 1000;
-			*currentNumeral = 'M';
+			if(integer >= romanConversionData[conversionIndex].value)
+			{
+				integer -= romanConversionData[conversionIndex].value;
+				strcat(destination, romanConversionData[conversionIndex].numeralString);
+				break;
+			}
 		}
-		else if(integer >= 900)
-		{
-			*currentNumeral = 'C';
-			currentNumeral++;
-			*currentNumeral = 'M';
-			integer -= 900;
-		}
-		else if(integer >= 500)
-		{
-			integer -= 500;
-			*currentNumeral = 'D';
-		}
-		else if(integer >= 400)
-		{
-			*currentNumeral = 'C';
-			currentNumeral++;
-			*currentNumeral = 'D';
-			integer -= 400;
-		}
-		else if(integer >= 100)
-		{
-			integer -= 100;
-			*currentNumeral = 'C';
-		}
-		else if(integer >= 90)
-		{
-			*currentNumeral = 'X';
-			currentNumeral++;
-			*currentNumeral = 'C';
-			integer -= 90;
-		}
-		else if(integer >= 50)
-		{
-			integer -= 50;
-			*currentNumeral = 'L';
-		}
-		else if(integer >= 40)
-		{
-			*currentNumeral = 'X';
-			currentNumeral++;
-			*currentNumeral = 'L';
-			integer -= 40;
-		}
-		else if(integer >= 10)
-		{
-			integer -= 10;
-			*currentNumeral = 'X';
-		}
-		else if(integer >= 9)
-		{
-			*currentNumeral = 'I';
-			currentNumeral++;
-			*currentNumeral = 'X';
-			integer -= 9;
-		}
-		else if(integer >= 5)
-		{
-			integer -= 5;
-			*currentNumeral = 'V';
-		}
-		else if(integer >= 4)
-		{
-			*currentNumeral = 'I';
-			currentNumeral++;
-			*currentNumeral = 'V';
-			integer -= 4;
-		}
-		else
-		{
-			integer--;
-			*currentNumeral = 'I';
-		}
-		currentNumeral++;
 	}
 }
