@@ -5,6 +5,7 @@
 #include <stdio.h>
 
 static int convertRomanNumeralToInteger(char* romanNumeral);
+static int convertRomanCharacter(char romanCharacter);
 static void convertIntegerToRomanNumeral(int integer, char* destination);
 
 struct RomanCalculator
@@ -62,35 +63,78 @@ void roman_calc_free(RomanCalculator* roman_calc)
 static int convertRomanNumeralToInteger(char* romanNumeral)
 {
 	int result = 0;
-	char* currentNumeral = romanNumeral;
+	int lastAddedValue = 0;
+	int currentNumeral;
 
-	while(0 != *currentNumeral)
+	for(currentNumeral = strlen(romanNumeral) - 1; 
+		currentNumeral >= 0; 
+		currentNumeral--)
 	{
-		switch(*currentNumeral)
+		switch(convertRomanCharacter(romanNumeral[currentNumeral]))
 		{
-		case 'I':
-			result += 1;
+		case 1:
+			if(lastAddedValue > 1)
+			{
+				result -= 1;
+			}
+			else
+			{
+				result += 1;
+				lastAddedValue = 1;
+			}
 			break;
-		case 'V':
+		case 5:
 			result += 5;
+			lastAddedValue = 5;
 			break;
-		case 'X':
+		case 10:
 			result += 10;
 			break;
-		case 'L':
+		case 50:
 			result += 50;
 			break;
-		case 'C':
+		case 100:
 			result += 100;
 			break;
-		case 'D':
+		case 500:
 			result += 500;
 			break;
-		case 'M':
+		case 1000:
 			result += 1000;
 			break;
 		}
-		currentNumeral++;
+	}
+
+	return result;
+}
+
+static int convertRomanCharacter(char romanCharacter)
+{
+	int result = 0;
+
+	switch(romanCharacter)
+	{
+	case 'I':
+		result = 1;
+		break;
+	case 'V':
+		result = 5;
+		break;
+	case 'X':
+		result = 10;
+		break;
+	case 'L':
+		result = 50;
+		break;
+	case 'C':
+		result = 100;
+		break;
+	case 'D':
+		result = 500;
+		break;
+	case 'M':
+		result = 1000;
+		break;
 	}
 
 	return result;
@@ -125,6 +169,13 @@ static void convertIntegerToRomanNumeral(int integer, char* destination)
 		{
 			integer -= 10;
 			*currentNumeral = 'X';
+		}
+		else if(integer == 9)
+		{
+			*currentNumeral = 'I';
+			currentNumeral++;
+			*currentNumeral = 'X';
+			integer -= 9;
 		}
 		else if(integer >= 5)
 		{
