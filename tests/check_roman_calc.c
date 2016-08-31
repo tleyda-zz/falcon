@@ -397,17 +397,17 @@ START_TEST(test_roman_calc_add_M_to_M)
 }
 END_TEST
 
-Suite * roman_calc_suite (void)
+void addCoreTests(Suite* testSuite)
 {
-    Suite *s = suite_create ("Roman Calculator");
-
-    /* Core test case */
     TCase *tc_core = tcase_create ("Core");
     tcase_add_checked_fixture (tc_core, setup, teardown);
     tcase_add_test (tc_core, test_roman_calc_create);
-    suite_add_tcase (s, tc_core);
+    suite_add_tcase (testSuite, tc_core);
+}
 
-    TCase *tc_add = tcase_create ("Addition");
+void addSingleCharacterTests(Suite* testSuite)
+{
+    TCase *tc_add = tcase_create ("Single Character Addition");
     tcase_add_checked_fixture (tc_add, setup, teardown);
     tcase_add_test (tc_add, test_roman_calc_add_I_to_I);
     tcase_add_test (tc_add, test_roman_calc_add_X_to_X);
@@ -456,9 +456,17 @@ Suite * roman_calc_suite (void)
     tcase_add_test (tc_add, test_roman_calc_add_M_to_C);
     tcase_add_test (tc_add, test_roman_calc_add_M_to_D);
     tcase_add_test (tc_add, test_roman_calc_add_M_to_M);
-    suite_add_tcase (s, tc_add);
+    suite_add_tcase (testSuite, tc_add);
+}
 
-    return s;
+Suite * roman_calc_suite (void)
+{
+    Suite *testSuite = suite_create ("Roman Calculator");
+
+    addCoreTests(testSuite);
+    addSingleCharacterTests(testSuite);
+
+    return testSuite;
 }
 
 int main (void)
