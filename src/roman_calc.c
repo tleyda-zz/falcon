@@ -5,7 +5,7 @@
 #include <stdio.h>
 
 static int convertRomanNumeralToInteger(char* romanNumeral);
-static int convertRomanCharacter(char romanCharacter);
+static int findRomanToIntegerConversion(char romanCharacter);
 static void convertIntegerToRomanNumeral(int integer, char* destination);
 
 struct RomanCalculator
@@ -13,15 +13,22 @@ struct RomanCalculator
 	char result[10];
 };
 
-struct RomanConversionData
+struct IntegerToRomanConversion
 {
 	int value;
 	const char* numeralString;
 };
 
+struct RomanToIntegerConversion
+{
+	char numeral;
+	int value;
+	int isSubtractor;
+};
+
 #define NUM_ROMAN_CONVERSION 13
 
-const struct RomanConversionData romanConversionData[NUM_ROMAN_CONVERSION] = 
+const struct IntegerToRomanConversion integerToRomanConversionTable[NUM_ROMAN_CONVERSION] = 
 {
 	{1000, "M"},
 	{900, "CM"},
@@ -36,6 +43,19 @@ const struct RomanConversionData romanConversionData[NUM_ROMAN_CONVERSION] =
 	{5, "V"},
 	{4, "IV"},
 	{1, "I"}
+};
+
+#define NUM_ROMAN_NUMERAL 7
+
+const struct RomanToIntegerConversion romanToIntegerConversion[NUM_ROMAN_NUMERAL] = 
+{
+	{'I', 1, 1},
+	{'V', 5, 0},
+	{'X', 10, 1},
+	{'L', 50, 0},
+	{'C', 100, 1},
+	{'D', 500, 0},
+	{'M', 1000, 1}
 };
 
 RomanCalculator* roman_calc_create()
@@ -87,93 +107,46 @@ static int convertRomanNumeralToInteger(char* romanNumeral)
 		currentNumeral >= 0; 
 		currentNumeral--)
 	{
-		switch(convertRomanCharacter(romanNumeral[currentNumeral]))
+		int conversionIndex = findRomanToIntegerConversion(romanNumeral[currentNumeral]);
+		int currentNumeralValue = romanToIntegerConversion[conversionIndex].value;
+
+		if(romanToIntegerConversion[conversionIndex].isSubtractor)
 		{
-		case 1:
-			if(lastAddedValue > 1)
+			if(lastAddedValue > currentNumeralValue)
 			{
-				result -= 1;
+				result -= currentNumeralValue;
 			}
 			else
 			{
-				result += 1;
-				lastAddedValue = 1;
+				result += currentNumeralValue;
+				lastAddedValue = currentNumeralValue;
 			}
-			break;
-		case 5:
-			result += 5;
-			lastAddedValue = 5;
-			break;
-		case 10:
-			if(lastAddedValue > 10)
-			{
-				result -= 10;
-			}
-			else
-			{
-				result += 10;
-				lastAddedValue = 10;
-			}
-			break;
-		case 50:
-			result += 50;
-			lastAddedValue = 50;
-			break;
-		case 100:
-			if(lastAddedValue > 100)
-			{
-				result -= 100;
-			}
-			else
-			{
-				result += 100;
-				lastAddedValue = 100;
-			}
-			break;
-		case 500:
-			result += 500;
-			lastAddedValue = 500;
-			break;
-		case 1000:
-			result += 1000;
-			lastAddedValue = 1000;
-			break;
+		}
+		else
+		{
+			result += currentNumeralValue;
+			lastAddedValue = currentNumeralValue;
 		}
 	}
 
 	return result;
 }
 
-static int convertRomanCharacter(char romanCharacter)
+static int findRomanToIntegerConversion(char romanCharacter)
 {
-	int result = 0;
+	int conversionIndex;
 
-	switch(romanCharacter)
+	for(conversionIndex = 0; 
+		conversionIndex < NUM_ROMAN_NUMERAL; 
+		++conversionIndex)
 	{
-	case 'I':
-		result = 1;
-		break;
-	case 'V':
-		result = 5;
-		break;
-	case 'X':
-		result = 10;
-		break;
-	case 'L':
-		result = 50;
-		break;
-	case 'C':
-		result = 100;
-		break;
-	case 'D':
-		result = 500;
-		break;
-	case 'M':
-		result = 1000;
-		break;
+		if(romanToIntegerConversion[conversionIndex].numeral == romanCharacter)
+		{
+			break;
+		}
 	}
 
-	return result;
+	return conversionIndex;
 }
 
 static void convertIntegerToRomanNumeral(int integer, char* destination)
@@ -185,10 +158,10 @@ static void convertIntegerToRomanNumeral(int integer, char* destination)
 			conversionIndex < NUM_ROMAN_CONVERSION; 
 			++conversionIndex)
 		{
-			if(integer >= romanConversionData[conversionIndex].value)
+			if(integer >= integerToRomanConversionTable[conversionIndex].value)
 			{
-				integer -= romanConversionData[conversionIndex].value;
-				strcat(destination, romanConversionData[conversionIndex].numeralString);
+				integer -= integerToRomanConversionTable[conversionIndex].value;
+				strcat(destination, integerToRomanConversionTable[conversionIndex].numeralString);
 				break;
 			}
 		}
