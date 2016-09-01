@@ -148,7 +148,15 @@ static int convertRomanNumeralToInteger(char* romanNumeral)
 		{
 			if(lastAddedValue > currentNumeralValue)
 			{
-				result -= currentNumeralValue;
+				if(repeatedNumeralCount == 0)
+				{
+					result -= currentNumeralValue;
+				}
+				else
+				{
+					result = 0;
+					break;
+				}
 			}
 			else
 			{
