@@ -530,6 +530,13 @@ START_TEST(test_roman_calc_non_roman_characters)
 }
 END_TEST
 
+START_TEST(test_roman_calc_numerals_that_do_not_repeat)
+{
+    roman_calc_add(roman_calc, "M", "VV");
+    ck_assert_int_eq (roman_calc_result_length(roman_calc), 0);
+}
+END_TEST
+
 void addCoreTests(Suite* testSuite)
 {
     TCase *tc_core = tcase_create ("Core");
@@ -627,6 +634,7 @@ void addFailureModeTests(Suite* testSuite)
     tcase_add_test (tc_fail, test_roman_calc_add_empty_string);
     tcase_add_test (tc_fail, test_roman_calc_sub_empty_string);
     tcase_add_test (tc_fail, test_roman_calc_non_roman_characters);
+    tcase_add_test (tc_fail, test_roman_calc_numerals_that_do_not_repeat);
     suite_add_tcase (testSuite, tc_fail);
 }
 

@@ -22,7 +22,7 @@ struct RomanToIntegerConversion
 {
 	char numeral;
 	int value;
-	int isSubtractor;
+	int isSpecial;
 };
 
 #define NUM_ROMAN_CONVERSION 13
@@ -117,6 +117,8 @@ static int convertRomanNumeralToInteger(char* romanNumeral)
 	int result = 0;
 	int lastAddedValue = 0;
 	int currentNumeral;
+	char lastNumeral = 0;
+	int repeatedNumeralCount = 0;
 
 	for(currentNumeral = strlen(romanNumeral) - 1; 
 		currentNumeral >= 0; 
@@ -131,9 +133,18 @@ static int convertRomanNumeralToInteger(char* romanNumeral)
 			break;
 		}
 
+		if(inputNumeral == lastNumeral)
+		{
+			repeatedNumeralCount++;
+		}
+		else
+		{
+			repeatedNumeralCount = 0;
+		}
+
 		int currentNumeralValue = romanToIntegerConversion[conversionIndex].value;
 
-		if(romanToIntegerConversion[conversionIndex].isSubtractor)
+		if(romanToIntegerConversion[conversionIndex].isSpecial)
 		{
 			if(lastAddedValue > currentNumeralValue)
 			{
@@ -147,9 +158,18 @@ static int convertRomanNumeralToInteger(char* romanNumeral)
 		}
 		else
 		{
-			result += currentNumeralValue;
-			lastAddedValue = currentNumeralValue;
+			if(repeatedNumeralCount == 0)
+			{
+				result += currentNumeralValue;
+				lastAddedValue = currentNumeralValue;
+			}
+			else
+			{
+				result = 0;
+				break;
+			}
 		}
+		lastNumeral = inputNumeral;
 	}
 
 	return result;
