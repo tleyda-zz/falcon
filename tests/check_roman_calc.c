@@ -485,6 +485,14 @@ START_TEST(test_roman_calc_sub_I_from_II)
 }
 END_TEST
 
+START_TEST(test_roman_calc_sub_XIV_from_LXXIV)
+{
+    roman_calc_subtract(roman_calc, "LXXIV", "XIV");
+    ck_assert_int_eq (roman_calc_result_length(roman_calc), 2);
+    ck_assert_str_eq (roman_calc_result(roman_calc), "LX");
+}
+END_TEST
+
 void addCoreTests(Suite* testSuite)
 {
     TCase *tc_core = tcase_create ("Core");
@@ -569,6 +577,7 @@ void addSubtractionTests(Suite* testSuite)
     TCase *tc_sub = tcase_create ("Subraction");
     tcase_add_checked_fixture (tc_sub, setup, teardown);
     tcase_add_test (tc_sub, test_roman_calc_sub_I_from_II);
+    tcase_add_test (tc_sub, test_roman_calc_sub_XIV_from_LXXIV);
     suite_add_tcase (testSuite, tc_sub);
 }
 
