@@ -124,6 +124,13 @@ static int convertRomanNumeralToInteger(char* romanNumeral)
 	{
 		char inputNumeral = (char)toupper(romanNumeral[currentNumeral]);
 		int conversionIndex = findRomanToIntegerConversion(inputNumeral);
+
+		if(conversionIndex < 0)
+		{
+			result = 0;
+			break;
+		}
+
 		int currentNumeralValue = romanToIntegerConversion[conversionIndex].value;
 
 		if(romanToIntegerConversion[conversionIndex].isSubtractor)
@@ -162,7 +169,7 @@ static int findRomanToIntegerConversion(char romanCharacter)
 		}
 	}
 
-	return conversionIndex;
+	return conversionIndex < NUM_ROMAN_NUMERAL ? conversionIndex : -1;
 }
 
 static void convertIntegerToRomanNumeral(int integer, char* destination)
