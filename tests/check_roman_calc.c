@@ -501,6 +501,14 @@ START_TEST(test_roman_calc_sub_MMM_to_MMMCMXCIX)
 }
 END_TEST
 
+START_TEST(test_roman_calc_lower_case_input)
+{
+    roman_calc_add(roman_calc, "mdclxvi", "M");
+    ck_assert_int_eq (roman_calc_result_length(roman_calc), 8);
+    ck_assert_str_eq (roman_calc_result(roman_calc), "MMDCLXVI");
+}
+END_TEST
+
 void addCoreTests(Suite* testSuite)
 {
     TCase *tc_core = tcase_create ("Core");
@@ -590,6 +598,14 @@ void addSubtractionTests(Suite* testSuite)
     suite_add_tcase (testSuite, tc_sub);
 }
 
+void addFailureModeTests(Suite* testSuite)
+{
+    TCase *tc_fail = tcase_create ("Failure Mode");
+    tcase_add_checked_fixture (tc_fail, setup, teardown);
+    tcase_add_test (tc_fail, test_roman_calc_lower_case_input);
+    suite_add_tcase (testSuite, tc_fail);
+}
+
 Suite * roman_calc_suite (void)
 {
     Suite *testSuite = suite_create ("Roman Calculator");
@@ -598,6 +614,7 @@ Suite * roman_calc_suite (void)
     addSingleCharacterAddTests(testSuite);
     addMultiCharacterAddTests(testSuite);
     addSubtractionTests(testSuite);
+    addFailureModeTests(testSuite);
 
     return testSuite;
 }

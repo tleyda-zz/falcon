@@ -1,8 +1,7 @@
+#include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
 #include "roman_calc.h"
-
-#include <stdio.h>
 
 static int convertRomanNumeralToInteger(char* romanNumeral);
 static int findRomanToIntegerConversion(char romanCharacter);
@@ -117,7 +116,8 @@ static int convertRomanNumeralToInteger(char* romanNumeral)
 		currentNumeral >= 0; 
 		currentNumeral--)
 	{
-		int conversionIndex = findRomanToIntegerConversion(romanNumeral[currentNumeral]);
+		char inputNumeral = (char)toupper(romanNumeral[currentNumeral]);
+		int conversionIndex = findRomanToIntegerConversion(inputNumeral);
 		int currentNumeralValue = romanToIntegerConversion[conversionIndex].value;
 
 		if(romanToIntegerConversion[conversionIndex].isSubtractor)
