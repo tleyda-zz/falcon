@@ -477,6 +477,14 @@ START_TEST(test_roman_calc_add_MMM_to_CMXCIX)
 }
 END_TEST
 
+START_TEST(test_roman_calc_sub_I_from_II)
+{
+    roman_calc_subtract(roman_calc, "II", "I");
+    ck_assert_int_eq (roman_calc_result_length(roman_calc), 1);
+    ck_assert_str_eq (roman_calc_result(roman_calc), "I");
+}
+END_TEST
+
 void addCoreTests(Suite* testSuite)
 {
     TCase *tc_core = tcase_create ("Core");
@@ -556,6 +564,14 @@ void addMultiCharacterAddTests(Suite* testSuite)
     suite_add_tcase (testSuite, tc_mc_add);
 }
 
+void addSubtractionTests(Suite* testSuite)
+{
+    TCase *tc_sub = tcase_create ("Subraction");
+    tcase_add_checked_fixture (tc_sub, setup, teardown);
+    tcase_add_test (tc_sub, test_roman_calc_sub_I_from_II);
+    suite_add_tcase (testSuite, tc_sub);
+}
+
 Suite * roman_calc_suite (void)
 {
     Suite *testSuite = suite_create ("Roman Calculator");
@@ -563,6 +579,7 @@ Suite * roman_calc_suite (void)
     addCoreTests(testSuite);
     addSingleCharacterAddTests(testSuite);
     addMultiCharacterAddTests(testSuite);
+    addSubtractionTests(testSuite);
 
     return testSuite;
 }

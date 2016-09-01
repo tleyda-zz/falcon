@@ -75,6 +75,16 @@ void roman_calc_add(RomanCalculator* roman_calc, char* romanOperand1, char* roma
 	convertIntegerToRomanNumeral(operand1 + operand2, roman_calc->result);
 }
 
+void roman_calc_subtract(RomanCalculator* roman_calc, char* romanOperand1, char* romanOperand2)
+{
+	int operand1 = convertRomanNumeralToInteger(romanOperand1);
+	int operand2 = convertRomanNumeralToInteger(romanOperand2);
+
+	memset(roman_calc->result, 0, 10);
+
+	convertIntegerToRomanNumeral(operand1 - operand2, roman_calc->result);
+}
+
 int roman_calc_result_length(RomanCalculator* roman_calc)
 {
 	if(roman_calc->result != NULL)
