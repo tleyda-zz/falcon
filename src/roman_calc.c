@@ -5,8 +5,10 @@
 
 static int convertRomanNumeralToInteger(const char* romanNumeral);
 static int findRomanToIntegerConversion(const char romanCharacter);
-static int calculateNumeralAdjustment(const int specialNumeral, int* lastAddedValue, 
-	const int currentNumeralValue, const int repeatedNumeralCount);
+static int updateRepeatedNumeralCount(const char currentInputNumeral, 
+	const char lastNumeral, const int currentRepeatedNumeralCount);
+static int calculateNumeralAdjustment(const char currentInputNumeral, 
+	const char lastNumeral, int* lastAddedValue, int* currentRepeatedNumeralCount);
 static int handleSpecialRomanNumeral(int* lastAddedValue, const int currentNumeralValue, 
 	const int repeatedNumeralCount);
 static int handleStandardRomanNumeral(int* lastAddedValue, const int currentNumeralValue, 
@@ -128,29 +130,8 @@ static int convertRomanNumeralToInteger(const char* romanNumeral)
 		currentNumeral--)
 	{
 		char inputNumeral = (char)toupper(romanNumeral[currentNumeral]);
-		int conversionIndex = findRomanToIntegerConversion(inputNumeral);
-
-		if(0 > conversionIndex)
-		{
-			result = 0;
-			break;
-		}
-
-		if(inputNumeral == lastNumeral)
-		{
-			repeatedNumeralCount++;
-		}
-		else
-		{
-			repeatedNumeralCount = 0;
-		}
-
-		int currentNumeralValue = romanToIntegerConversion[conversionIndex].value;
-		int adjustment = calculateNumeralAdjustment(
-							romanToIntegerConversion[conversionIndex].isSpecial,
-							&lastAddedValue, 
-							currentNumeralValue, 
-							repeatedNumeralCount);
+		int adjustment = calculateNumeralAdjustment(inputNumeral, 
+							lastNumeral, &lastAddedValue, &repeatedNumeralCount);
 
 		if(0 == adjustment)
 		{
@@ -184,14 +165,42 @@ static int findRomanToIntegerConversion(const char romanCharacter)
 	return NUM_ROMAN_NUMERAL > conversionIndex ? conversionIndex : -1;
 }
 
-static int calculateNumeralAdjustment(const int specialNumeral, int* lastAddedValue, 
-	const int currentNumeralValue, const int repeatedNumeralCount)
+static int updateRepeatedNumeralCount(const char currentInputNumeral, 
+	const char lastNumeral, const int currentRepeatedNumeralCount)
 {
-	return specialNumeral ?
-				handleSpecialRomanNumeral(lastAddedValue, currentNumeralValue, 
-					repeatedNumeralCount) :
-				handleStandardRomanNumeral(lastAddedValue, currentNumeralValue, 
-					repeatedNumeralCount);
+	int result = currentRepeatedNumeralCount;
+	if(currentInputNumeral == lastNumeral)
+	{
+		result++;
+	}
+	else
+	{
+		result = 0;
+	}
+
+	return result;
+}
+
+static int calculateNumeralAdjustment(const char currentInputNumeral, 
+	const char lastNumeral, int* lastAddedValue, int* currentRepeatedNumeralCount)
+{
+	int adjustment = 0;
+	int conversionIndex = findRomanToIntegerConversion(currentInputNumeral);
+
+	if(0 <= conversionIndex)
+	{
+		*currentRepeatedNumeralCount = 
+			updateRepeatedNumeralCount(currentInputNumeral, lastNumeral, *currentRepeatedNumeralCount);
+
+		int currentNumeralValue = romanToIntegerConversion[conversionIndex].value;
+		adjustment = romanToIntegerConversion[conversionIndex].isSpecial ?
+							handleSpecialRomanNumeral(lastAddedValue, currentNumeralValue, 
+								*currentRepeatedNumeralCount) :
+							handleStandardRomanNumeral(lastAddedValue, currentNumeralValue, 
+								*currentRepeatedNumeralCount);
+	}
+
+	return adjustment;
 }
 
 static int handleSpecialRomanNumeral(int* lastAddedValue, const int currentNumeralValue, 
