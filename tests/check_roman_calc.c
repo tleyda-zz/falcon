@@ -509,6 +509,13 @@ START_TEST(test_roman_calc_lower_case_input)
 }
 END_TEST
 
+START_TEST(test_roman_calc_add_empty_string)
+{
+    roman_calc_add(roman_calc, "", "M");
+    ck_assert_int_eq (roman_calc_result_length(roman_calc), 0);
+}
+END_TEST
+
 void addCoreTests(Suite* testSuite)
 {
     TCase *tc_core = tcase_create ("Core");
@@ -603,6 +610,7 @@ void addFailureModeTests(Suite* testSuite)
     TCase *tc_fail = tcase_create ("Failure Mode");
     tcase_add_checked_fixture (tc_fail, setup, teardown);
     tcase_add_test (tc_fail, test_roman_calc_lower_case_input);
+    tcase_add_test (tc_fail, test_roman_calc_add_empty_string);
     suite_add_tcase (testSuite, tc_fail);
 }
 
