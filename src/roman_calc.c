@@ -31,6 +31,7 @@ struct RomanToIntegerConversion
 	int isSpecial;
 };
 
+#define MAX_REPEATED_NUMERAL_COUNT 3
 #define NUM_ROMAN_CONVERSION 13
 
 const struct IntegerToRomanConversion integerToRomanConversionTable[NUM_ROMAN_CONVERSION] = 
@@ -207,7 +208,7 @@ static int handleSpecialRomanNumeral(int* lastAddedValue, const int currentNumer
 	}
 	else
 	{
-		if(3 > repeatedNumeralCount)
+		if(MAX_REPEATED_NUMERAL_COUNT > repeatedNumeralCount)
 		{
 			adjustment = currentNumeralValue;
 			*lastAddedValue = currentNumeralValue;
