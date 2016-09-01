@@ -12,3 +12,7 @@ clean:
 		make -C $$dir clean; \
 	done
 	rm testromancalc
+
+.PHONY: check
+check:
+	./testromancalc
