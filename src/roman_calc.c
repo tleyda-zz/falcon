@@ -5,6 +5,7 @@
 
 static int convertRomanNumeralToInteger(char* romanNumeral);
 static int findRomanToIntegerConversion(char romanCharacter);
+static int calculateNumeralAdjustment(int specialNumeral, int* lastAddedValue, int currentNumeralValue, int repeatedNumeralCount);
 static int handleSpecialRomanNumeral(int* lastAddedValue, int currentNumeralValue, int repeatedNumeralCount);
 static int handleStandardRomanNumeral(int* lastAddedValue, int currentNumeralValue, int repeatedNumeralCount);
 static void convertIntegerToRomanNumeral(int integer, char* destination);
@@ -145,34 +146,20 @@ static int convertRomanNumeralToInteger(char* romanNumeral)
 		}
 
 		int currentNumeralValue = romanToIntegerConversion[conversionIndex].value;
+		int adjustment = calculateNumeralAdjustment(
+							romanToIntegerConversion[conversionIndex].isSpecial,
+							&lastAddedValue, 
+							currentNumeralValue, 
+							repeatedNumeralCount);
 
-		if(romanToIntegerConversion[conversionIndex].isSpecial)
+		if(adjustment == 0)
 		{
-			int adjustment = handleSpecialRomanNumeral(&lastAddedValue, currentNumeralValue, repeatedNumeralCount);
-
-			if(adjustment == 0)
-			{
-				result = 0;
-				break;
-			}
-			else
-			{
-				result += adjustment;
-			}
+			result = 0;
+			break;
 		}
 		else
 		{
-			int adjustment = handleStandardRomanNumeral(&lastAddedValue, currentNumeralValue, repeatedNumeralCount);
-
-			if(adjustment == 0)
-			{
-				result = 0;
-				break;
-			}
-			else
-			{
-				result += adjustment;
-			}
+			result += adjustment;
 		}
 		lastNumeral = inputNumeral;
 	}
@@ -195,6 +182,13 @@ static int findRomanToIntegerConversion(char romanCharacter)
 	}
 
 	return conversionIndex < NUM_ROMAN_NUMERAL ? conversionIndex : -1;
+}
+
+static int calculateNumeralAdjustment(int specialNumeral, int* lastAddedValue, int currentNumeralValue, int repeatedNumeralCount)
+{
+	return specialNumeral ?
+				handleSpecialRomanNumeral(lastAddedValue, currentNumeralValue, repeatedNumeralCount) :
+				handleStandardRomanNumeral(lastAddedValue, currentNumeralValue, repeatedNumeralCount);
 }
 
 static int handleSpecialRomanNumeral(int* lastAddedValue, int currentNumeralValue, int repeatedNumeralCount)
