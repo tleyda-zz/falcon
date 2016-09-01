@@ -3,14 +3,14 @@
 #include <string.h>
 #include "roman_calc.h"
 
-static int convertRomanNumeralToInteger(char* romanNumeral);
-static int findRomanToIntegerConversion(char romanCharacter);
-static int calculateNumeralAdjustment(int specialNumeral, int* lastAddedValue, 
-	int currentNumeralValue, int repeatedNumeralCount);
-static int handleSpecialRomanNumeral(int* lastAddedValue, int currentNumeralValue, 
-	int repeatedNumeralCount);
-static int handleStandardRomanNumeral(int* lastAddedValue, int currentNumeralValue, 
-	int repeatedNumeralCount);
+static int convertRomanNumeralToInteger(const char* romanNumeral);
+static int findRomanToIntegerConversion(const char romanCharacter);
+static int calculateNumeralAdjustment(const int specialNumeral, int* lastAddedValue, 
+	const int currentNumeralValue, const int repeatedNumeralCount);
+static int handleSpecialRomanNumeral(int* lastAddedValue, const int currentNumeralValue, 
+	const int repeatedNumeralCount);
+static int handleStandardRomanNumeral(int* lastAddedValue, const int currentNumeralValue, 
+	const int repeatedNumeralCount);
 static void convertIntegerToRomanNumeral(int integer, char* destination);
 
 struct RomanCalculator
@@ -70,7 +70,7 @@ RomanCalculator* roman_calc_create()
 	return(roman_calc);	
 }
 
-void roman_calc_add(RomanCalculator* roman_calc, char* romanOperand1, char* romanOperand2)
+void roman_calc_add(RomanCalculator* roman_calc, const char* romanOperand1, const char* romanOperand2)
 {
 	int operand1 = convertRomanNumeralToInteger(romanOperand1);
 	int operand2 = convertRomanNumeralToInteger(romanOperand2);
@@ -83,7 +83,7 @@ void roman_calc_add(RomanCalculator* roman_calc, char* romanOperand1, char* roma
 	}
 }
 
-void roman_calc_subtract(RomanCalculator* roman_calc, char* romanOperand1, char* romanOperand2)
+void roman_calc_subtract(RomanCalculator* roman_calc, const char* romanOperand1, const char* romanOperand2)
 {
 	int operand1 = convertRomanNumeralToInteger(romanOperand1);
 	int operand2 = convertRomanNumeralToInteger(romanOperand2);
@@ -114,7 +114,7 @@ void roman_calc_free(RomanCalculator* roman_calc)
 	}	
 }
 
-static int convertRomanNumeralToInteger(char* romanNumeral)
+static int convertRomanNumeralToInteger(const char* romanNumeral)
 {
 	int result = 0;
 	int lastAddedValue = 0;
@@ -166,7 +166,7 @@ static int convertRomanNumeralToInteger(char* romanNumeral)
 	return result;
 }
 
-static int findRomanToIntegerConversion(char romanCharacter)
+static int findRomanToIntegerConversion(const char romanCharacter)
 {
 	int conversionIndex;
 
@@ -183,8 +183,8 @@ static int findRomanToIntegerConversion(char romanCharacter)
 	return NUM_ROMAN_NUMERAL > conversionIndex ? conversionIndex : -1;
 }
 
-static int calculateNumeralAdjustment(int specialNumeral, int* lastAddedValue, 
-	int currentNumeralValue, int repeatedNumeralCount)
+static int calculateNumeralAdjustment(const int specialNumeral, int* lastAddedValue, 
+	const int currentNumeralValue, const int repeatedNumeralCount)
 {
 	return specialNumeral ?
 				handleSpecialRomanNumeral(lastAddedValue, currentNumeralValue, 
@@ -193,8 +193,8 @@ static int calculateNumeralAdjustment(int specialNumeral, int* lastAddedValue,
 					repeatedNumeralCount);
 }
 
-static int handleSpecialRomanNumeral(int* lastAddedValue, int currentNumeralValue, 
-	int repeatedNumeralCount)
+static int handleSpecialRomanNumeral(int* lastAddedValue, const int currentNumeralValue, 
+	const int repeatedNumeralCount)
 {
 	int adjustment = 0;
 
@@ -217,8 +217,8 @@ static int handleSpecialRomanNumeral(int* lastAddedValue, int currentNumeralValu
 	return adjustment;
 }
 
-static int handleStandardRomanNumeral(int* lastAddedValue, int currentNumeralValue, 
-	int repeatedNumeralCount)
+static int handleStandardRomanNumeral(int* lastAddedValue, const int currentNumeralValue, 
+	const int repeatedNumeralCount)
 {
 	int adjustment = 0;
 
