@@ -5,6 +5,8 @@
 
 static int convertRomanNumeralToInteger(char* romanNumeral);
 static int findRomanToIntegerConversion(char romanCharacter);
+static int handleSpecialRomanNumeral(int* lastAddedValue, int currentNumeralValue, int repeatedNumeralCount);
+static int handleStandardRomanNumeral(int* lastAddedValue, int currentNumeralValue, int repeatedNumeralCount);
 static void convertIntegerToRomanNumeral(int integer, char* destination);
 
 struct RomanCalculator
@@ -146,43 +148,30 @@ static int convertRomanNumeralToInteger(char* romanNumeral)
 
 		if(romanToIntegerConversion[conversionIndex].isSpecial)
 		{
-			if(lastAddedValue > currentNumeralValue)
+			int adjustment = handleSpecialRomanNumeral(&lastAddedValue, currentNumeralValue, repeatedNumeralCount);
+
+			if(adjustment == 0)
 			{
-				if(repeatedNumeralCount == 0)
-				{
-					result -= currentNumeralValue;
-				}
-				else
-				{
-					result = 0;
-					break;
-				}
+				result = 0;
+				break;
 			}
 			else
 			{
-				if(repeatedNumeralCount < 3)
-				{
-					result += currentNumeralValue;
-					lastAddedValue = currentNumeralValue;
-				}
-				else
-				{
-					result = 0;
-					break;
-				}
+				result += adjustment;
 			}
 		}
 		else
 		{
-			if(repeatedNumeralCount == 0)
-			{
-				result += currentNumeralValue;
-				lastAddedValue = currentNumeralValue;
-			}
-			else
+			int adjustment = handleStandardRomanNumeral(&lastAddedValue, currentNumeralValue, repeatedNumeralCount);
+
+			if(adjustment == 0)
 			{
 				result = 0;
 				break;
+			}
+			else
+			{
+				result += adjustment;
 			}
 		}
 		lastNumeral = inputNumeral;
@@ -206,6 +195,42 @@ static int findRomanToIntegerConversion(char romanCharacter)
 	}
 
 	return conversionIndex < NUM_ROMAN_NUMERAL ? conversionIndex : -1;
+}
+
+static int handleSpecialRomanNumeral(int* lastAddedValue, int currentNumeralValue, int repeatedNumeralCount)
+{
+	int adjustment = 0;
+
+	if(*lastAddedValue > currentNumeralValue)
+	{
+		if(repeatedNumeralCount == 0)
+		{
+			adjustment = -currentNumeralValue;
+		}
+	}
+	else
+	{
+		if(repeatedNumeralCount < 3)
+		{
+			adjustment = currentNumeralValue;
+			*lastAddedValue = currentNumeralValue;
+		}
+	}
+
+	return adjustment;
+}
+
+static int handleStandardRomanNumeral(int* lastAddedValue, int currentNumeralValue, int repeatedNumeralCount)
+{
+	int adjustment = 0;
+
+	if(repeatedNumeralCount == 0)
+	{
+		adjustment = currentNumeralValue;
+		*lastAddedValue = currentNumeralValue;
+	}
+
+	return adjustment;
 }
 
 static void convertIntegerToRomanNumeral(int integer, char* destination)
