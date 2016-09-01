@@ -6,18 +6,18 @@ RomanCalculator* roman_calc;
 
 void setup(void)
 {
-	 roman_calc = roman_calc_create();
+    roman_calc = roman_calc_create();
 }
 
 void teardown(void)
 {
-	 roman_calc_free(roman_calc);
-   roman_calc = NULL;
+    roman_calc_free(roman_calc);
+    roman_calc = NULL;
 }
 
 START_TEST(test_roman_calc_create)
 {
-	 ck_assert_int_eq (roman_calc_result_length(roman_calc), 0);
+    ck_assert_int_eq (roman_calc_result_length(roman_calc), 0);
 }
 END_TEST
 
