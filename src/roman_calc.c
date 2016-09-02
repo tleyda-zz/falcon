@@ -67,14 +67,14 @@ const struct RomanToIntegerConversion romanToIntegerConversion[NUM_ROMAN_NUMERAL
 	{'M', 1000, 1}
 };
 
-RomanCalculator* roman_calc_create()
+RomanCalculator* romanCalcCreate()
 {
 	RomanCalculator* roman_calc = malloc(sizeof(RomanCalculator));
 
 	return(roman_calc);	
 }
 
-void roman_calc_add(RomanCalculator* roman_calc, const char* romanOperand1, const char* romanOperand2)
+void romanCalcAdd(RomanCalculator* roman_calc, const char* romanOperand1, const char* romanOperand2)
 {
 	int operand1 = convertRomanNumeralToInteger(romanOperand1);
 	int operand2 = convertRomanNumeralToInteger(romanOperand2);
@@ -88,7 +88,7 @@ void roman_calc_add(RomanCalculator* roman_calc, const char* romanOperand1, cons
 	}
 }
 
-void roman_calc_subtract(RomanCalculator* roman_calc, const char* romanOperand1, const char* romanOperand2)
+void romanCalcSubtract(RomanCalculator* roman_calc, const char* romanOperand1, const char* romanOperand2)
 {
 	int operand1 = convertRomanNumeralToInteger(romanOperand1);
 	int operand2 = convertRomanNumeralToInteger(romanOperand2);
@@ -101,17 +101,17 @@ void roman_calc_subtract(RomanCalculator* roman_calc, const char* romanOperand1,
 	}
 }
 
-int roman_calc_result_length(RomanCalculator* roman_calc)
+int romanCalcResultLength(RomanCalculator* roman_calc)
 {
 	return strlen(roman_calc->result);
 }
 
-char* roman_calc_result(RomanCalculator* roman_calc)
+char* romanCalcResult(RomanCalculator* roman_calc)
 {
 	return roman_calc->result;
 }
 
-void roman_calc_free(RomanCalculator* roman_calc)
+void romanCalcFree(RomanCalculator* roman_calc)
 {
 	if(NULL != roman_calc)
 	{
