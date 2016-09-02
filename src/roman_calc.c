@@ -35,6 +35,7 @@ struct RomanToIntegerConversion
 
 #define MAX_REPEATED_NUMERAL_COUNT 3
 #define NUM_ROMAN_CONVERSION 13
+#define MAX_ALLOWED_VALUE 3999
 
 const struct IntegerToRomanConversion integerToRomanConversionTable[NUM_ROMAN_CONVERSION] = 
 {
@@ -77,12 +78,13 @@ void roman_calc_add(RomanCalculator* roman_calc, const char* romanOperand1, cons
 {
 	int operand1 = convertRomanNumeralToInteger(romanOperand1);
 	int operand2 = convertRomanNumeralToInteger(romanOperand2);
+	int result = operand1 + operand2;
 
 	memset(roman_calc->result, 0, 10);
 
-	if((0 < operand1) && (0 < operand2))
+	if((0 < operand1) && (0 < operand2) && (MAX_ALLOWED_VALUE >= result))
 	{
-		convertIntegerToRomanNumeral(operand1 + operand2, roman_calc->result);
+		convertIntegerToRomanNumeral(result, roman_calc->result);
 	}
 }
 

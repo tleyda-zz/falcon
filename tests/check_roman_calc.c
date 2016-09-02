@@ -551,6 +551,13 @@ START_TEST(test_roman_calc_numerals_that_can_repeat_but_should_not)
 }
 END_TEST
 
+START_TEST(test_roman_calc_numerals_that_add_to_more_than_max)
+{
+    roman_calc_add(roman_calc, "MM", "MM");
+    ck_assert_int_eq (roman_calc_result_length(roman_calc), 0);
+}
+END_TEST
+
 void addCoreTests(Suite* testSuite)
 {
     TCase *tc_core = tcase_create ("Core");
@@ -651,6 +658,7 @@ void addFailureModeTests(Suite* testSuite)
     tcase_add_test (tc_fail, test_roman_calc_numerals_that_do_not_repeat);
     tcase_add_test (tc_fail, test_roman_calc_numerals_that_can_repeat);
     tcase_add_test (tc_fail, test_roman_calc_numerals_that_can_repeat_but_should_not);
+    tcase_add_test (tc_fail, test_roman_calc_numerals_that_add_to_more_than_max);
     suite_add_tcase (testSuite, tc_fail);
 }
 
